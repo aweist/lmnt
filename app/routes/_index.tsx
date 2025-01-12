@@ -12,42 +12,14 @@ export default function Index() {
     <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-16">
         <header className="flex flex-col items-center gap-9">
-          <h1 className="leading text-2xl font-bold text-gray-800 dark:text-gray-100">
-            Welcome to <span className="sr-only">Remix</span>
-          </h1>
-          <div className="h-[144px] w-[434px]">
-            <img
-              src="/logo-light.png"
-              alt="Remix"
-              className="block w-full dark:hidden"
-            />
-            <img
-              src="/logo-dark.png"
-              alt="Remix"
-              className="hidden w-full dark:block"
-            />
-          </div>
+          <svg width="100%" height="100%" viewBox="0 0 53.18 53">
+            <g fill="white">
+              <path d="M29.898 24.068V13.821l4.418 6.683h.09l4.461-6.75v10.317h3.465v-15.8h-3.759l-4.167 6.68-4.168-6.681h-3.76v15.799h3.42zM29.193 32.133h4.825v12.594h3.488V32.133h4.824v-3.205H29.193zM22.239 20.91h-7.906V8.27h-3.487v15.799h11.393z"></path>
+              <path d="M0 0v53h53.18V0H0zm49.693 49.521H3.416V3.476h46.277v46.045z"></path>
+              <path d="M14.288 34.684l7.68 10.043h2.967V28.928h-3.443v9.73l-7.43-9.73h-3.216v15.799h3.442z"></path>
+            </g>
+          </svg>
         </header>
-        <nav className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
-          <p className="leading-6 text-gray-700 dark:text-gray-200">
-            What&apos;s next?
-          </p>
-          <ul>
-            {resources.map(({ href, text, icon }) => (
-              <li key={href}>
-                <a
-                  className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {icon}
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
     </div>
   );
