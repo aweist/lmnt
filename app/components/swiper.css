@@ -7,3 +7,10 @@
   height: 3px;
   border-radius: 0px;
 }
+
+.swiper-slide-next{
+  opacity: 50% !important;
+}
+.swiper-slide-prev{
+  opacity: 50% !important;
+}
