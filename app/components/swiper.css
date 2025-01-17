@@ -8,13 +8,18 @@ body{
 
 .swiper-slide-next{
   opacity: 50% !important;
+}
+.swiper-slide-prev{
+  opacity: 50% !important;
+}
+
+.swiper-slide{
   .nutrient-fact{
     opacity: 0;
   }
 }
-.swiper-slide-prev{
-  opacity: 50% !important;
+.swiper-slide-visible{
   .nutrient-fact{
-    opacity: 0;
+    opacity: 100%;
   }
 }

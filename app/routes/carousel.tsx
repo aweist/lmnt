@@ -102,12 +102,27 @@ export default function App() {
           centeredSlides={true}
           slidesPerView={1}
           navigation={true}
+          breakpoints={{
+            0: {
+              navigation: {
+                enabled: false,
+              },
+            },
+            640: {
+              navigation: {
+                enabled: true,
+              },
+            },
+          }}
         >
           {variants.map((variant, index) => (
             <SwiperSlide key={index}>
               <div className="flex justify-center">
-                <div className="w-[520px] relative">
-                  <div>
+                <div className="md:w-[520px] relative">
+                  <div className="text-center text-neutral-100 h-auto md:h-0 md:invisible">
+                    {variant.title}
+                  </div>
+                  <div className="h-0 md:h-[520px] invisible md:visible">
                     <img
                       id={variant.title}
                       src={"images/packets/" + variant.sku + ".webp"}
@@ -115,12 +130,12 @@ export default function App() {
                       className="h-[520px]"
                     />
                   </div>
-                  <div className="absolute top-[6px] left-[270px]">
+                  <div className="md:absolute md:top-[6px] md:left-[270px]">
                     <img
                       src="https://res.cloudinary.com/dg0m1wsvu/image/upload/f_auto,q_auto/v1690825963/components/nutrition-facts/nfp-stick-pack-10.webp"
                       alt={variant.title + "Salt Nutritional Facts"}
                       loading="lazy"
-                      className="h-[469px]"
+                      className="w-full md:h-[469px]"
                     ></img>
                     {isSodiumFactVisible && (
                       <div
