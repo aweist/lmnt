@@ -1,54 +1,64 @@
-import React, { useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { LoaderFunction, ActionFunction, json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
-import "swiper/css";
-import "swiper/css/pagination";
-import "../components/swiper.css";
+import { createStorefrontApiClient } from "@shopify/storefront-api-client";
+
+const client = createStorefrontApiClient({
+  storeDomain: "https://aweist.myshopify.com",
+  apiVersion: "2025-01",
+  publicAccessToken: "f76d5c9e4d1dd07c3390b6f7c415faa4",
+});
+
+interface productVariant {
+  id: string;
+  sku: string;
+  title: string;
+}
+interface productByHandleQueryResponse {
+  productByHandle: {
+    createdAt: string;
+    description: string;
+    handle: string;
+    id: string;
+    variants: {
+      nodes: {
+        [id: number]: productVariant;
+      };
+    };
+  };
+}
+
+export const loader = async () => {
+  const shopQuery = `
+    query Product {
+      productByHandle(handle: "lmnt-electrolyte-drink") {
+          createdAt
+          description
+          handle
+          id
+          variants(first: 100) {
+              nodes {
+                  id
+                  sku
+                  title
+              }
+          }
+      }
+    }
+  `;
+
+  const { data, errors, extensions } = await client.request(shopQuery);
+  const product: productByHandleQueryResponse =
+    data as productByHandleQueryResponse;
+  return product;
+};
 
 export default function App() {
-  const pagination = {
-    clickable: true,
-    renderBullet: function (_index: number, className: string) {
-      return '<span class="' + className + '"></span>';
-    },
-  };
-
+  const product = useLoaderData<typeof loader>();
+  console.log(product.productByHandle.variants.nodes);
   return (
     <>
-      <div className="flex justify-center">
-        <div className="w-[700px] h-[600px]">
-          <Swiper
-            centeredSlides={true}
-            pagination={pagination}
-            modules={[Pagination]}
-            className="mySwiper"
-          >
-            <SwiperSlide>
-              <div className="flex justify-center">
-                <img
-                  className="w-full object-contain md:max-w-[50%] lg:w-auto"
-                  src="https://res.cloudinary.com/dg0m1wsvu/image/upload/f_auto,q_auto/v1690825963/components/nutrition-facts/nfp-stick-pack-10.webp"
-                  alt="Grapefruit Salt Nutritional Facts"
-                  loading="lazy"
-                  width="240"
-                  height="520"
-                ></img>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <img
-                className="w-full object-contain md:max-w-[50%] lg:w-auto"
-                src="https://res.cloudinary.com/dg0m1wsvu/image/upload/f_auto,q_auto/v1690825963/components/nutrition-facts/nfp-stick-pack-5.webp"
-                alt="Grapefruit Salt Nutritional Facts"
-                loading="lazy"
-                width="240"
-                height="520"
-              ></img>
-            </SwiperSlide>
-          </Swiper>
-        </div>
-      </div>
+      <div>Hello World</div>
     </>
   );
 }
