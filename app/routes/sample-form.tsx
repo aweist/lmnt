@@ -1,8 +1,14 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { Form, useActionData } from "@remix-run/react";
+import {
+  Form,
+  isRouteErrorResponse,
+  redirect,
+  useActionData,
+  useRouteError,
+} from "@remix-run/react";
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -17,9 +23,9 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const org = String(formData.get("org"));
   const orgName = String(formData.get("org-name"));
-  const orgSize = String(formData.get("org-size"));
+  const orgSize = Number(formData.get("org-size"));
 
-  let errors: {
+  let validationErrors: {
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -32,50 +38,93 @@ export async function action({ request }: ActionFunctionArgs) {
   } = {};
 
   if (!firstName) {
-    errors.firstName = "First name is required";
+    validationErrors.firstName = "First name is required";
   }
 
   if (!lastName) {
-    errors.lastName = "Last name is required";
+    validationErrors.lastName = "Last name is required";
   }
 
   if (!email) {
-    errors.email = "Email address is required";
+    validationErrors.email = "Email address is required";
   } else if (!email.includes("@")) {
-    errors.email = "Invalid email address";
+    validationErrors.email = "Invalid email address";
   }
 
   if (!streetAddress) {
-    errors.streetAddress = "Street address is required";
+    validationErrors.streetAddress = "Street address is required";
   }
   if (!city) {
-    errors.city = "City is required";
+    validationErrors.city = "City is required";
   }
   if (!state) {
-    errors.state = "State is required";
+    validationErrors.state = "State is required";
   }
   if (!postalCode) {
-    errors.postalCode = "Postal code is required";
+    validationErrors.postalCode = "Postal code is required";
   }
-  if (org) {
+  if (org === "yes") {
     if (!orgName) {
-      errors.orgName = "Organization name is required";
+      validationErrors.orgName = "Organization name is required";
     }
     if (!orgSize) {
-      errors.orgSize = "Organization size is required";
+      validationErrors.orgSize = "Organization size is required";
     }
   }
 
-  if (Object.keys(errors).length > 0) {
-    return json({ errors });
+  if (Object.keys(validationErrors).length > 0) {
+    console.log(org, validationErrors);
+    return validationErrors;
   }
 
-  // Redirect to dashboard if validation is successful
-  return redirect("/dashboard");
+  const baseURL = process.env.SAMPLE_REQUEST_SERVICE_URL;
+  const url = baseURL + "/sample_requests";
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      first_name: firstName,
+      last_name: lastName,
+      email_address: email,
+      street_address: streetAddress,
+      city: city,
+      state: state,
+      postal_code: postalCode,
+      org_name: orgName,
+      org_size: orgSize,
+    }),
+  });
+
+  if (!response.ok) {
+    toast.error("Error submitting request");
+  }
+
+  return redirect("/success");
 }
 
-export default function Signup() {
-  const actionData = useActionData<typeof action>();
+export function ErrorBoundary() {
+  const error = useRouteError();
+  let message = "Unknown error";
+  if (isRouteErrorResponse(error)) {
+    message = `${error.status} ${error.statusText}`;
+  } else if (error instanceof Error) {
+    message = error.message;
+  }
+  return (
+    <div
+      className="bg-red-100 border border-red-400 text-red-700 m-10 px-4 py-3 rounded relative"
+      role="alert"
+    >
+      <strong className="font-bold">{message}</strong>
+    </div>
+  );
+}
+
+export default function SampleForm() {
+  const errors = useActionData<typeof action>();
   const [org, setOrg] = useState(false);
 
   return (
@@ -90,9 +139,9 @@ export default function Signup() {
                   className="inline-block text-sm/6 font-medium text-gray-900"
                 >
                   First name{" "}
-                  {actionData?.errors.firstName && (
+                  {errors?.firstName && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.firstName}
+                      {errors?.firstName}
                     </span>
                   )}
                 </label>
@@ -112,9 +161,9 @@ export default function Signup() {
                   className="block text-sm/6 font-medium text-gray-900"
                 >
                   Last name{" "}
-                  {actionData?.errors.lastName && (
+                  {errors?.lastName && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.lastName}
+                      {errors?.lastName}
                     </span>
                   )}
                 </label>
@@ -134,9 +183,9 @@ export default function Signup() {
                   className="block text-sm/6 font-medium text-gray-900"
                 >
                   Email address{" "}
-                  {actionData?.errors.email && (
+                  {errors?.email && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.email}
+                      {errors?.email}
                     </span>
                   )}
                 </label>
@@ -156,9 +205,9 @@ export default function Signup() {
                   className="block text-sm/6 font-medium text-gray-900"
                 >
                   Street address{" "}
-                  {actionData?.errors.streetAddress && (
+                  {errors?.streetAddress && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.streetAddress}
+                      {errors?.streetAddress}
                     </span>
                   )}
                 </label>
@@ -178,9 +227,9 @@ export default function Signup() {
                   className="block text-sm/6 font-medium text-gray-900"
                 >
                   City{" "}
-                  {actionData?.errors.city && (
+                  {errors?.city && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.city}
+                      {errors?.city}
                     </span>
                   )}
                 </label>
@@ -200,9 +249,9 @@ export default function Signup() {
                   className="block text-sm/6 font-medium text-gray-900"
                 >
                   State{" "}
-                  {actionData?.errors.state && (
+                  {errors?.state && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.state}
+                      {errors?.state}
                     </span>
                   )}
                 </label>
@@ -222,9 +271,9 @@ export default function Signup() {
                   className="block text-sm/6 font-medium text-gray-900"
                 >
                   ZIP / Postal code{" "}
-                  {actionData?.errors.postalCode && (
+                  {errors?.postalCode && (
                     <span className="inline-block text-sm/6 font-medium text-red-500">
-                      {actionData?.errors.postalCode}
+                      {errors?.postalCode}
                     </span>
                   )}
                 </label>
@@ -270,9 +319,9 @@ export default function Signup() {
                       className="inline-block text-sm/6 font-medium text-gray-900"
                     >
                       Organization name{" "}
-                      {actionData?.errors.orgName && (
+                      {errors?.orgName && (
                         <span className="inline-block text-sm/6 font-medium text-red-500">
-                          {actionData?.errors.orgName}
+                          {errors?.orgName}
                         </span>
                       )}
                     </label>
@@ -293,9 +342,9 @@ export default function Signup() {
                       className="block text-sm/6 font-medium text-gray-900"
                     >
                       Organization Size{" "}
-                      {actionData?.errors.orgSize && (
+                      {errors?.orgSize && (
                         <span className="inline-block text-sm/6 font-medium text-red-500">
-                          {actionData?.errors.orgSize}
+                          {errors?.orgSize}
                         </span>
                       )}
                     </label>
