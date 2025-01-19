@@ -29,12 +29,9 @@ interface SampleRequest {
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
   const requestID = body.get("id");
-  const response = await fetch(
-    `http://localhost:3000/sample_requests/${requestID}/approve`,
-    {
-      method: "POST",
-    }
-  );
+  const baseURL = process.env.SAMPLE_REQUEST_SERVICE_URL;
+  const url = baseURL + "/sample_requests/" + requestID + "/approve";
+  const response = await fetch(url, { method: "POST" });
   if (!response.ok) {
     toast.error("Error approving request");
   }
@@ -60,11 +57,11 @@ export function ErrorBoundary() {
 }
 
 export const loader = async () => {
-  const response = await fetch("http://localhost:3000/sample_requests").catch(
-    function () {
-      throw new Error("Failed to fetch data");
-    }
-  );
+  const baseURL = process.env.SAMPLE_REQUEST_SERVICE_URL;
+  const url = baseURL + "/sample_requests";
+  const response = await fetch(url).catch(function () {
+    throw new Error("Failed to fetch data");
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch data");
   }
