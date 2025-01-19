@@ -1,7 +1,12 @@
 import React from "react";
 
-import { useLoaderData, useRouteError } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import type { ActionFunctionArgs } from "@remix-run/node";
+import { toast } from "sonner";
 
 interface SampleRequest {
   id: number;
@@ -31,24 +36,35 @@ export async function action({ request }: ActionFunctionArgs) {
     }
   );
   if (!response.ok) {
-    throw new Response("Failed to approve request");
+    toast.error("Error approving request");
   }
-  throw new Response("Failed to approve request");
   return response;
 }
 
 export function ErrorBoundary() {
   const error = useRouteError();
+  let message = "Unknown error";
+  if (isRouteErrorResponse(error)) {
+    message = `${error.status} ${error.statusText}`;
+  } else if (error instanceof Error) {
+    message = error.message;
+  }
   return (
-    <div className="text-red-500 text-center">
-      <h1>Error</h1>
-      <p>{error instanceof Error ? error.message : "Unknown error"}</p>
+    <div
+      className="bg-red-100 border border-red-400 text-red-700 m-10 px-4 py-3 rounded relative"
+      role="alert"
+    >
+      <strong className="font-bold">{message}</strong>
     </div>
   );
 }
 
 export const loader = async () => {
-  const response = await fetch("http://localhost:3000/sample_requests");
+  const response = await fetch("http://localhost:3000/sample_requests").catch(
+    function () {
+      throw new Error("Failed to fetch data");
+    }
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch data");
   }
@@ -60,53 +76,55 @@ export default function SampleRequestReview() {
   const sampleRequests = useLoaderData<typeof loader>();
 
   return (
-    <div className="shadow-lg rounded-lg overflow-hidden mt-4 mx-4 md:mx-10">
-      <table className="w-full table-fixed">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-              Name
-            </th>
-            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-              Email
-            </th>
-            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-              Address
-            </th>
-            <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          {sampleRequests.map((request) => (
-            <tr key={request.id}>
-              <td className="py-4 px-6 border-b border-gray-200">{`${request.first_name} ${request.last_name}`}</td>
-              <td className="py-4 px-6 border-b border-gray-200 truncate">
-                {request.email_address}
-              </td>
-              <td className="py-4 px-6 border-b border-gray-200">{`${request.street_address}, ${request.city}, ${request.state}, ${request.postal_code}`}</td>
-              <td className="py-4 px-6 border-b border-gray-200">
-                {request.approved_at ? (
-                  <span className="py-1 px-2 rounded-full text-xs bg-green-500 text-white">
-                    Approved
-                  </span>
-                ) : (
-                  <form method="post">
-                    <input type="hidden" name="id" value={request.id} />
-                    <button
-                      type="submit"
-                      className="py-1 px-2 rounded-full text-xs bg-blue-500 text-white"
-                    >
-                      Approve
-                    </button>
-                  </form>
-                )}
-              </td>
+    <div>
+      <div className="shadow-lg rounded-lg overflow-hidden mt-4 mx-4 md:mx-10">
+        <table className="w-full table-fixed">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                Name
+              </th>
+              <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                Email
+              </th>
+              <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                Address
+              </th>
+              <th className="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">
+                Status
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white">
+            {sampleRequests.map((request) => (
+              <tr key={request.id}>
+                <td className="py-4 px-6 border-b border-gray-200">{`${request.first_name} ${request.last_name}`}</td>
+                <td className="py-4 px-6 border-b border-gray-200 truncate">
+                  {request.email_address}
+                </td>
+                <td className="py-4 px-6 border-b border-gray-200">{`${request.street_address}, ${request.city}, ${request.state}, ${request.postal_code}`}</td>
+                <td className="py-4 px-6 border-b border-gray-200">
+                  {request.approved_at ? (
+                    <span className="py-1 px-2 rounded-full text-xs bg-green-500 text-white">
+                      Approved
+                    </span>
+                  ) : (
+                    <form method="post">
+                      <input type="hidden" name="id" value={request.id} />
+                      <button
+                        type="submit"
+                        className="py-1 px-2 rounded-full text-xs bg-blue-500 text-white"
+                      >
+                        Approve
+                      </button>
+                    </form>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
