@@ -1,5 +1,6 @@
 body{
-  font-family: GothamSsm-Book, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+  font-family: GothamSsm-Book, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: black;
 }
 
 .swiper-wrapper{
