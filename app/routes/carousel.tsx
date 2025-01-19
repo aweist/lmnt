@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 const client = createStorefrontApiClient({
   storeDomain: "https://aweist.myshopify.com",
   apiVersion: "2025-01",
-  publicAccessToken: "f76d5c9e4d1dd07c3390b6f7c415faa4",
+  publicAccessToken: process.env.SHOPIFY_STOREFRONT_API_TOKEN,
 });
 
 interface productVariant {
