@@ -158,10 +158,10 @@ export default function App() {
                       className="nutrient-fact invisible md:visible absolute top-[60px] left-[150px] w-[400px]"
                     >
                       <img
-                        className="absolute w-[280px] top-[60px] left-[-30px]"
+                        className="animate-pulse absolute w-[280px] top-[60px] left-[-30px]"
                         src="images/pointer.svg"
                       ></img>
-                      <div className="absolute w-[200px] left-[140px]">
+                      <div className="absolute top-[-20px] w-[200px] left-[140px]">
                         <p className="absolute text-neutral-100	">
                           Research-backed levels of sodium to support brain,
                           heart, bone, hormonal, and immune system health.
@@ -175,10 +175,10 @@ export default function App() {
                       className="nutrient-fact invisible md:visible absolute top-[225px] left-[150px] w-[400px]"
                     >
                       <img
-                        className="absolute w-[280px] top-[60px] left-[-30px]"
+                        className="animate-pulse absolute w-[280px] top-[60px] left-[-30px]"
                         src="images/pointer.svg"
                       ></img>
-                      <div className="absolute w-[200px] left-[175px]">
+                      <div className="absolute top-[-20px] w-[200px] left-[175px]">
                         <p className="absolute text-neutral-100">
                           Potassium works in tandem with sodium to support a
                           myriad of processes in our bodies.
@@ -192,10 +192,10 @@ export default function App() {
                       className="nutrient-fact invisible md:visible absolute top-[243px] left-[150px] w-[400px]"
                     >
                       <img
-                        className="absolute w-[280px] top-[60px] left-[-30px]"
+                        className="animate-pulse absolute w-[280px] top-[60px] left-[-30px]"
                         src="images/pointer.svg"
                       ></img>
-                      <div className="absolute w-[200px] top-[-40px] left-[175px]">
+                      <div className="absolute w-[200px] top-[-60px] left-[175px]">
                         <p className="absolute text-neutral-100">
                           Magnesium supports over 300 enzymatic reactions that
                           drive energy production, bone building, muscle growth,
