@@ -14,8 +14,32 @@ npm run dev
 
 ### build
 
-docker build -t lmnt-project .
+```
+docker build -t aweist/lmnt .
+```
 
-### run
+### push
 
-docker run -p 3000:3000 -it --rm lmnt-project
+```
+docker push aweist/lmnt
+```
+
+### run locally
+
+```
+docker run -p 3000:3000 -it --rm aweist/lmnt
+```
+
+### deploy via docker compose
+
+```docker
+  lmnt:
+    image: aweist/lmnt:latest
+    environment:
+      - PORT=3001
+      - SHOPIFY_STOREFRONT_API_TOKEN={redacted}
+      - SAMPLE_REQUEST_SERVICE_URL=http://localhost:3000
+    ports:
+      - "3001:3001"
+    network_mode: "host"
+```
