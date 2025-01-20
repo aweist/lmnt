@@ -73,13 +73,11 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   if (Object.keys(validationErrors).length > 0) {
-    console.log(org, validationErrors);
     return validationErrors;
   }
 
   const baseURL = process.env.SAMPLE_REQUEST_SERVICE_URL;
   const url = baseURL + "/sample_requests";
-  console.log(url);
   const response = await fetch(url, {
     method: "POST",
     headers: {

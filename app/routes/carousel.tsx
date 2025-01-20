@@ -69,11 +69,22 @@ export const loader = async () => {
 
 export default function App() {
   const variants = useLoaderData<typeof loader>();
-  console.log(variants);
 
   const [isSodiumFactVisible, setIsSodiumFactVisible] = useState(false);
   const [isPotassiumFactVisible, setIsPotassiumFactVisible] = useState(false);
   const [isMagnesiumFactVisible, setIsMagnesiumFactVisible] = useState(false);
+
+  // hacky way of getting somewhat similar colors to the current website
+  const variantColorMap: { [variantSku: string]: string } = {
+    citrus: "bg-gradient-to-r from-lime-400",
+    watermelon: "bg-gradient-to-r from-red-400",
+    orange: "bg-gradient-to-r from-orange-500",
+    raspberry: "bg-gradient-to-r from-pink-500",
+    raw: "bg-gradient-to-r from-teal-400",
+    "mango-chili": "bg-gradient-to-r from-green-400 to-red-500 via-orange-500",
+    chocolate: "bg-gradient-to-r from-amber-900",
+    grapefruit: "bg-gradient-to-r from-red-300",
+  };
 
   let factidx = 0;
   function updateFacts() {
@@ -118,7 +129,12 @@ export default function App() {
           <SwiperSlide key={index}>
             <div className="flex justify-center">
               <div className="md:w-[520px] relative">
-                <div className="text-center text-neutral-100 h-auto md:h-0 md:invisible">
+                <div
+                  className={
+                    variantColorMap[variant.sku] +
+                    " text-center text-neutral-100 h-auto md:h-0 md:invisible"
+                  }
+                >
                   {variant.title}
                 </div>
                 <div className="h-0 md:h-[520px] invisible md:visible">
