@@ -1,7 +1,3 @@
-# Welcome to Remix!
-
-- 📖 [Remix docs](https://remix.run/docs)
-
 ## Development
 
 Run the dev server:
@@ -10,24 +6,18 @@ Run the dev server:
 npm run dev
 ```
 
-## Deployment via Docker
+## Deploy
 
 ### build
 
 ```
-docker build -t aweist/lmnt .
+docker build --platform=linux/amd64 -t aweist/lmnt .
 ```
 
 ### push
 
 ```
 docker push aweist/lmnt
-```
-
-### run locally
-
-```
-docker run -p 3000:3000 -it --rm aweist/lmnt
 ```
 
 ### deploy via docker compose

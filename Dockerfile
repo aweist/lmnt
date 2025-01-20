@@ -1,6 +1,6 @@
 # base node image
 
-FROM --platform=linux/amd64 node:21-bullseye-slim as base
+FROM node:21-bullseye-slim as base
 
 ENV NODE_ENV production
 
