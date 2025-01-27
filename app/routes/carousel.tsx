@@ -149,7 +149,7 @@ export default function App() {
                         src="https://res.cloudinary.com/dg0m1wsvu/image/upload/f_auto,q_auto/v1690825963/components/nutrition-facts/nfp-stick-pack-10.webp"
                         alt={variant.title + "Salt Nutritional Facts"}
                         loading="lazy"
-                        className="w-full md:h-[469px]"
+                        className="w-full h-[552px] md:h-[469px]"
                       ></img>
                       <div
                         id="sodium-fact"
@@ -165,10 +165,10 @@ export default function App() {
                           className="animate-pulse absolute xl:invisible top-[228px] left-[-14px] md:top-[162px] md:left-[-50px]"
                           src="images/pointer-sodium-md.svg"
                         ></img>
-                        <div className="absolute top-[550px] left-[-150px] md:top-[460px] xl:top-[-20px] w-[200px] md:left-[-240px] xl:left-[140px]">
-                          <p className="absolute text-neutral-100	">
+                        <div className="absolute top-[550px] left-[-150px] md:top-[460px] xl:top-[-20px] w-[250px] xl:w-[200px] md:left-[-240px] xl:left-[140px]">
+                          <p className="absolute text-neutral-100">
                             Research-backed levels of sodium to support brain,
-                            heart, bone, hormonal, and immune system health.
+                            heart, bone, hormonal, and immune system health
                           </p>
                         </div>
                       </div>
@@ -186,10 +186,10 @@ export default function App() {
                           className="animate-pulse absolute xl:invisible top-[258px] left-[-10px] h-[130px] md:top-[162px] md:left-[-50px]"
                           src="images/pointer-potassium-md.svg"
                         ></img>
-                        <div className="absolute top-[385px] left-[-150px] md:top-[295px] md:left-[-240px] xl:top-[-20px] w-[200px] xl:left-[175px]">
+                        <div className="absolute top-[385px] left-[-150px] md:top-[295px] md:left-[-240px] xl:top-[-20px] w-[250px] xl:w-[200px] xl:left-[175px]">
                           <p className="absolute text-neutral-100">
                             Potassium works in tandem with sodium to support a
-                            myriad of processes in our bodies.
+                            myriad of processes in our bodies
                           </p>
                         </div>
                       </div>
@@ -207,11 +207,11 @@ export default function App() {
                           className="animate-pulse absolute xl:invisible top-[261px] left-[-10px] md:top-[162px] md:left-[-50px]"
                           src="images/pointer-magnesium-sm.svg"
                         ></img>
-                        <div className="absolute w-[200px] top-[367px] left-[-150px] md:top-[277px] xl:top-[-60px] md:left-[-240px] xl:left-[175px]">
+                        <div className="absolute w-[250px] xl:w-[200px] top-[367px] left-[-150px] md:top-[277px] xl:top-[-60px] md:left-[-240px] xl:left-[175px]">
                           <p className="absolute text-neutral-100">
                             Magnesium supports over 300 enzymatic reactions that
-                            drive energy production, bone building, muscle
-                            growth, and many other functions
+                            drive energy production, bone building, and muscle
+                            growth
                           </p>
                         </div>
                       </div>
