@@ -14,13 +14,20 @@ body{
   opacity: 50% !important;
 }
 
+.swiper-slide:not(.swiper-slide-active,.swiper-slide-next,.swiper-slide-prev) {
+  opacity: 0 !important;
+}
+
 .swiper-slide{
-  .nutrient-fact{
+  .nutrient-fact,.nutrient-fact-visible{
     opacity: 0;
+    transition: visibility 0s linear 0s, opacity 300ms;
   }
 }
 .swiper-slide-visible{
-  .nutrient-fact{
-    opacity: 100%;
+  .nutrient-fact-visible{
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
   }
 }

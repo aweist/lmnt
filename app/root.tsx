@@ -10,6 +10,7 @@ import type { LinksFunction } from "@remix-run/node";
 
 import tailwindStyle from "./tailwind.css?url";
 import { Toaster, toast } from "sonner";
+import { ParallaxProvider } from "react-scroll-parallax";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -38,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <ParallaxProvider>{children}</ParallaxProvider>
         <Toaster richColors position="top-center" />
         <ScrollRestoration />
         <Scripts />
