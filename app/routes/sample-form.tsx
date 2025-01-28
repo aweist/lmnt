@@ -12,18 +12,26 @@ import { toast } from "sonner";
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const firstName = String(formData.get("first-name"));
-  const lastName = String(formData.get("last-name"));
-  const email = String(formData.get("email"));
+  const firstName = String(formData.get("first-name")).trim();
+  const lastName = String(formData.get("last-name")).trim();
+  const email = String(formData.get("email")).trim();
 
-  const streetAddress = String(formData.get("street-address"));
-  const city = String(formData.get("city"));
-  const state = String(formData.get("state"));
-  const postalCode = String(formData.get("postal-code"));
+  const streetAddress = String(formData.get("street-address")).trim();
+  const city = String(formData.get("city")).trim();
+  const state = String(formData.get("state")).trim();
+  const postalCode = String(formData.get("postal-code")).trim();
 
-  const org = String(formData.get("org"));
-  const orgName = String(formData.get("org-name"));
+  const org = String(formData.get("org")).trim();
+  const orgName = String(formData.get("org-name")).trim();
   const orgSize = Number(formData.get("org-size"));
+
+  const validateEmail = (email: string) => {
+    return email
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
 
   let validationErrors: {
     firstName?: string;
@@ -35,6 +43,7 @@ export async function action({ request }: ActionFunctionArgs) {
     postalCode?: string;
     orgName?: string;
     orgSize?: string;
+    toastMsg?: string;
   } = {};
 
   if (!firstName) {
@@ -47,7 +56,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   if (!email) {
     validationErrors.email = "Email address is required";
-  } else if (!email.includes("@")) {
+  } else if (!validateEmail(email)) {
     validationErrors.email = "Invalid email address";
   }
 
@@ -97,7 +106,8 @@ export async function action({ request }: ActionFunctionArgs) {
   });
 
   if (!response.ok) {
-    toast.error("Error submitting request");
+    validationErrors.toastMsg = "Error submitting request";
+    return validationErrors;
   }
 
   return redirect("/success");
@@ -123,6 +133,12 @@ export function ErrorBoundary() {
 
 export default function SampleForm() {
   const errors = useActionData<typeof action>();
+  console.log("loading");
+  if (errors?.toastMsg) {
+    toast.error(errors.toastMsg, {
+      id: "error",
+    });
+  }
   const [org, setOrg] = useState(false);
 
   return (

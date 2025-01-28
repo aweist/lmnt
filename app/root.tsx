@@ -39,8 +39,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <ParallaxProvider>{children}</ParallaxProvider>
-        <Toaster richColors position="top-center" />
+        <ParallaxProvider>
+          {children}
+          <Toaster richColors position="top-center" />
+        </ParallaxProvider>
+
         <ScrollRestoration />
         <Scripts />
       </body>
