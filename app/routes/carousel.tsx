@@ -166,7 +166,7 @@ export default function App() {
                           src="images/pointer-sodium-md.svg"
                         ></img>
                         <div className="absolute top-[550px] left-[-150px] md:top-[460px] xl:top-[-20px] w-[250px] xl:w-[200px] md:left-[-240px] xl:left-[140px]">
-                          <p className="absolute text-neutral-100">
+                          <p className="absolute text-neutral-100 text-xs md:text-base">
                             Research-backed levels of sodium to support brain,
                             heart, bone, hormonal, and immune system health
                           </p>
@@ -187,7 +187,7 @@ export default function App() {
                           src="images/pointer-potassium-md.svg"
                         ></img>
                         <div className="absolute top-[385px] left-[-150px] md:top-[295px] md:left-[-240px] xl:top-[-20px] w-[250px] xl:w-[200px] xl:left-[175px]">
-                          <p className="absolute text-neutral-100">
+                          <p className="absolute text-neutral-100 text-xs md:text-base">
                             Potassium works in tandem with sodium to support a
                             myriad of processes in our bodies
                           </p>
@@ -208,7 +208,7 @@ export default function App() {
                           src="images/pointer-magnesium-sm.svg"
                         ></img>
                         <div className="absolute w-[250px] xl:w-[200px] top-[367px] left-[-150px] md:top-[277px] xl:top-[-60px] md:left-[-240px] xl:left-[175px]">
-                          <p className="absolute text-neutral-100">
+                          <p className="absolute text-neutral-100 text-xs md:text-base">
                             Magnesium supports over 300 enzymatic reactions that
                             drive energy production, bone building, and muscle
                             growth
